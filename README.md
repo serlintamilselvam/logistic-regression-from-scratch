@@ -1,1 +1,1 @@
-# logistic-regression-from-scratch
+# logistic Regression from scratch
