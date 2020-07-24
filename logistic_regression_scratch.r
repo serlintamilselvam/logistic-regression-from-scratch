@@ -1,6 +1,5 @@
 # LOAD DATA ----
-setwd("/home/st/Personal/Studies/Masters/2020/Summer/Project/Majid Project/Solution") # working directory
-saHeartData <- read.table("SAheart.data", sep=",",head=T,row.names=1)
+saHeartData <- read.table("http://www-stat.stanford.edu/~tibs/ElemStatLearn/datasets/SAheart.data", sep=",",head=T,row.names=1)
 maxIteration <- 100000
 
 # NORMALISE INPUT ----
