@@ -1,6 +1,7 @@
 # LOAD DATA ----
 saHeartData <- read.table("http://www-stat.stanford.edu/~tibs/ElemStatLearn/datasets/SAheart.data", sep=",",head=T,row.names=1)
-maxIteration <- 100000
+maxIteration <- 10000
+bestlearningRate <- 0.001
 
 # NORMALISE INPUT ----
 normalizeInput <- function(x) {
@@ -26,7 +27,9 @@ grad <- function(x, y, beta) {
   return(t(gradient))
 }
 
-gradientAscend <- function(x, y, learningRate=0.001, noOfIterations=500, toleranceTerm=1e-10) {
+gradientAscend <- function(x, y, learningRate = bestlearningRate, 
+                           noOfIterations = 500, 
+                           toleranceTerm=1e-5) {
   
   # Add x_0 = 1 as the first column
   x0 <- if(is.vector(x)) length(x) else nrow(x)
@@ -48,7 +51,8 @@ gradientAscend <- function(x, y, learningRate=0.001, noOfIterations=500, toleran
       break;
     }
   }
-  cat("In Iteration %f BETA DIFFERENCE IS %f\n", i, abs(newBeta - previousBeta))
+  cat(sprintf("Number of Iteration is %f\n", i))
+  #cat("In Iteration %f BETA DIFFERENCE IS %f\n", i, abs(newBeta - previousBeta))
   return (newBeta)
 }
 
@@ -67,6 +71,7 @@ predictionAccuracy <- function(y,yProbs,title="Train") {
   return (yPred)
 }
 
+
 # PREDICT PROBABILITY
 predictProb <- function(x,betaMax) {
   scaledXData <- if(is.vector(x)) length(x) else nrow(x)
@@ -75,6 +80,40 @@ predictProb <- function(x,betaMax) {
   predictionCalculation <- scaledXData %*% betaMax
   predictedProbabilityValues <- sigmoid(predictionCalculation)
   return (predictedProbabilityValues)
+}
+
+
+# PLOT REGRESSION GRAPH FOR DIFFERENT LEARNING RATE ----
+regressionGraph <- function(x, y, varyAlpha, colorsArray) {
+  
+  multipleBetas <- lapply(varyAlpha, 
+                          function(alpha) 
+                            matrix(gradientAscend(x = x, 
+                                                  y = y, 
+                                                  learningRate = alpha, 
+                                                  noOfIterations = maxIteration)))
+  plot(x,jitter(y, 1), 
+       pch = 19, 
+       xlab="Low Density Lipoprotein Cholesterol", 
+       ylab="Coronary Heart Disease(0 - Negative, 1 - Positive)", 
+       main="Regression Line with different learning rates",  
+       ylim=c(-0.25,2))
+  abline(h=.5, lty=2)
+  xPlotData <- seq(min(x), max(x), 0.01)
+  
+  for (i in 1:length(multipleBetas)) {
+    cat(sprintf("Learning rate = %.10f \n", varyAlpha[i]))
+    yPredOnDiffAlphaValue <- predictProb(x, multipleBetas[[i]])
+    dummy <- predictionAccuracy(y,yPredOnDiffAlphaValue,"Train")
+    print("______________________________________________________");
+    yPredGraphDataDiffBeta <- predictProb(xPlotData, multipleBetas[[i]])
+    lines(xPlotData, yPredGraphDataDiffBeta, col = colorsArray[i], lwd = 2)
+  }
+  
+  legend(x = "topright", y = 2.1, 
+         legend = varyAlpha, cex = .8,
+         title = "Learning Rates",
+         pch = 15, col = colorsArray)
 }
 
 
@@ -88,18 +127,6 @@ yTrainData <- saHeartData[1:100,10]
 betaMax <- matrix(gradientAscend(x=xTrainData, y=yTrainData, noOfIterations=maxIteration))
 trainProbs <- predictProb(xTrainData, betaMax)
 
-# COMPUTE BETA MAX WITH DIFFERENT LEARNING RATE ----
-# Finish this part of code tomo (24/7/2020)
-# multipleAlpha <- c(0.9, 0.1, 0.001, 1e-5, 1e-7, 1e-10)
-# betaMaxArray <- matrix(nrow = length(multipleAlpha), ncol = 1)
-# dim(betaMaxArray)
-# for (i in 1:length(multipleAlpha)) {
-#   betaMaxArray[i][1] <-  matrix(gradientAscend(x=xTrainData, 
-#                                                y=yTrainData, 
-#                                                learningRate = multipleAlpha[i], 
-#                                                noOfIterations=maxIteration,))
-# }
-
 # PREDICT ON TRAINED DATA
 trainYPred <- predictionAccuracy(yTrainData,trainProbs,"Train")
 print("CONFUSION MATRIX FOR TRAIN DATA:");
@@ -107,27 +134,41 @@ library(caret)
 confusionMatrix(table(trainYPred,yTrainData))
 
 
-# PLOT REGRESSION GRAPH
-plot(xTrainData,jitter(yTrainData, 1), 
-     pch = 19, 
-     xlab="Low Density Lipoprotein Cholesterol", 
-     ylab="Coronary Heart Disease(0 - Negative, 1 - Positive)", 
-     main="Logistic Regression on SA Heart Train Data")
-abline(h=.5, lty=2)
-xPlotData <- seq(min(xTrainData), max(xTrainData), 0.01)
-yPredGraphData <- predictProb(xPlotData, betaMax)
-lines(xPlotData, yPredGraphData, col = "blue")
+# COMPUTE BETA MAX WITH DIFFERENT LEARNING RATE
+multipleAlpha <- c(1, 0.9, 0.1, 1e-5, 1e-10)
+randColors <- c("Yellow2", "Blue", "Orange", "Green4", "Red")
+regressionGraph(xTrainData, yTrainData, multipleAlpha, randColors)
 
 
 # PREDICT ON TEST DATA
 xTestData <- normalizeInput(saHeartData[101:dim(saHeartData)[1], 3]) # Normalize xTestData
 yTestData <- saHeartData[101:dim(saHeartData)[1], 10]
 testProbs <- predictProb(xTestData,betaMax)
-testYPred <- predictionAccuracy(yTestData,testProbs,"Train")
+testYPred <- predictionAccuracy(yTestData,testProbs,"Test")
 
 
 # CONFUSION MATRIX ON PREDICTED OUTPUT
 print("CONFUSION MATRIX FOR TEST DATA:");
 library(caret)
-confusionMatrix(table(testYPred,yTestData))
+confusionMatrix(table(testYPred, yTestData))
+
+
+# CODE TO PLOT CONFUSION MATRIX ----
+
+# library(cvms)
+# library(broom)    # tidy()
+# library(tibble)   # tibble()
+# d_binomial <- tibble("target" = yTrainData,
+#                      "prediction" = trainYPred)
+# 
+# d_binomial
+# basic_table <- table(d_binomial)
+# basic_table
+# cfm <- broom::tidy(basic_table)
+# cfm
+# plot_confusion_matrix(cfm,
+#                       targets_col = "target",
+#                       predictions_col = "prediction",
+#                       counts_col = "n",
+#                       palette = "Red")
 
