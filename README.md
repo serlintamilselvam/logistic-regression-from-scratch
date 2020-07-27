@@ -1,9 +1,5 @@
-
-Bhuvaneshwaran Ravi, Jayashree Srinivasan, Kameswaran Rangasamy, Serlin Tamilselvam 
-bravi19@ubishops.ca, jsrinivasan19@ubishops.ca, krangasamy19@ubishops.ca, stamilselvam19@ubishops.ca
-
-
 # Logistic Regression using R
+
 
 ## Logistic Regression:
 
@@ -13,9 +9,33 @@ In logistic regression, we relate p(y), the probability of Y belonging to a cert
 
 p(y) = S(β0 + β1 * x1 + . . . + βk * xk), Where S(w) is the logistic sigmoid function given by s(w) = 1/(1+e^(-w))
 
+### Maximum Likelihood Estimation (MLE) of the Model
+
+In logistic regression, our goal is to learn a set of parameters βT = (β0 , β1 , ... , βn ) using the available training data. For linear regression, the typical method used is the least squares estimation. Although we could use (non-linear) least squares to fit the logistic regression model, the more general method of maximum likelihood estimation (MLE) is preferred, since it has better statistical properties. The idea behind MLE is to choose the most likely values of the parameters β0 , . . . , βn given the observed sample
+
+<div align="center">{(Xi1 , . . . , Xik , Yi), 1 ≤ i ≤ n}.</div>
+
+In logistic regression, the probability model is based on the binomial distributions:
+
+<div align="center">f(xi, pi) = f(yi, pi) = { pi, if yi = 1 && 1 - pi, if yi = 0}</div>
+
+where xi = (x1 ,..., xk) is the vector of features and 0 < pi < 1 are the probabilities associated to the binomials in the model. In other words, the probability of the feature vector xi specifying the class yi = 1 occurs with probability pi , that is
+
+<div align="center">p(yi = 1) = pi = (e^(β0+β1*x1i+...+βk*xki)/(1+e^(β0+β1*x1i+...+βk*xki)</div>
+
+Given a dataset with n training examples and k features 
+
 
 ## Implementation in R:
 
 The goal of the project is to implement logistic regression classifier using gradient ascent.
 
 ### Objective Function
+
+
+## Contributors
+
+1. Bhuvaneshwaran Ravi (bravi19@ubishops.ca) 
+2. Jayashree Srinivasan (jsrinivasan19@ubishops.ca)
+3. Kameswaran Rangasamy (krangasamy19@ubishops.ca)
+4. Serlin Tamilselvam (stamilselvam19@ubishops.ca)
