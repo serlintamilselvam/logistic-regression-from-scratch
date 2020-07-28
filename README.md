@@ -25,14 +25,38 @@ where xi = (x1 ,..., xk) is the vector of features and 0 < pi < 1 are the probab
 
 Given a dataset with n training examples and k features, then the conditional likelihood L(β) is given by
 
-<div align="center">L(β) = <a href="https://www.codecogs.com/eqnedit.php?latex=\coprod_{i=1}^{n}P(xi)^{yi}((1-P(xi))^{1-yi})" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\coprod_{i=1}^{n}P(xi)^{yi}((1-P(xi))^{1-yi})" title="\coprod_{i=1}^{n}P(xi)^{yi}((1-P(xi))^{1-yi})" /></a></div>
+<div align="center">L(β) = <img src="https://latex.codecogs.com/gif.latex?\coprod_{i=1}^{n}P(xi)^{yi}((1-P(xi))^{1-yi})" title="\coprod_{i=1}^{n}P(xi)^{yi}((1-P(xi))^{1-yi})" /></div>
+
+### Cost/Objective function
+
+The cost function for logistic regression is the log of conditional likelihood and it is given by
+
+<div align="center">The Log likelihood, l(β) = log(L(β)) = <img src="https://latex.codecogs.com/gif.latex?\sum_{i=1}^{n}[yi(\beta&space;_{0}&plus;\beta&space;_{i}xi)&space;-&space;log(1&plus;e^{\beta&space;_{0}&plus;\beta&space;_{i}xi})]" title="\sum_{i=1}^{n}[yi(\beta _{0}+\beta _{i}xi) - log(1+e^{\beta _{0}+\beta _{i}xi})]" /></div>
+
+### Gradient function
+
+The gradient function to find the local maxima is obtained using the following equation
+<div align="center"><img src="https://latex.codecogs.com/gif.latex?\frac{\partial&space;l}{\partial&space;\beta&space;_{j}}&space;=&space;\sum_{i=1}^{n}{x_{j}}^{(i)}(y_{i}-p_{(i)})" title="\frac{\partial l}{\partial \beta _{j}} = \sum_{i=1}^{n}{x_{j}}^{(i)}(y_{i}-p_{(i)})" /></div>
+
 
 
 ## Implementation in R:
 
-The goal of the project is to implement logistic regression classifier using gradient ascent.
+The goal of the project is to implement logistic regression classifier using gradient ascent. Gradient ascent is used to find the best weight and bias. The below algorithm is used to find the optimal weights.
 
-### Objective Function
+Gradient_Ascent()
+	1. Set α ∈ [0,1]  (Set learning rate)
+	2. Set ε > 0 (Tolerance Term)
+	3. β0 <- initial value
+	4. for t = 0, 1, ... do
+	5. 		Compute the gradient: gt = ∇l(β(t))
+	6.		Update the coefficients: β(t+1) <- β(t) + αgt
+	7.		Iterate until: || β(t+1) − β(t) || < ε
+	8. end for
+	9. Return the final coefficients: β(t final)
+
+The feature variable x1 is normalized before weights are calculated and the following formulae is used
+<div align="center"><img src="https://latex.codecogs.com/gif.latex?x_{i}&space;=&space;\frac{x_{i}&space;-&space;mean}{sd}" title="x_{i} = \frac{x_{i} - mean}{sd}" /></div>
 
 
 ## Contributors:
