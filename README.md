@@ -23,7 +23,9 @@ where xi = (x1 ,..., xk) is the vector of features and 0 < pi < 1 are the probab
 
 <div align="center">p(yi = 1) = pi = (e^(β0+β1*x1i+...+βk*xki)/(1+e^(β0+β1*x1i+...+βk*xki)</div>
 
-Given a dataset with n training examples and k features 
+Given a dataset with n training examples and k features, then the conditional likelihood L(β) is given by
+
+<div align="center">L(β) = <a href="https://www.codecogs.com/eqnedit.php?latex=\coprod_{i=1}^{n}P(xi)^{yi}((1-P(xi))^{1-yi})" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\coprod_{i=1}^{n}P(xi)^{yi}((1-P(xi))^{1-yi})" title="\coprod_{i=1}^{n}P(xi)^{yi}((1-P(xi))^{1-yi})" /></a></div>
 
 
 ## Implementation in R:
@@ -33,7 +35,7 @@ The goal of the project is to implement logistic regression classifier using gra
 ### Objective Function
 
 
-## Contributors
+## Contributors:
 
 1. Bhuvaneshwaran Ravi (bravi19@ubishops.ca) 
 2. Jayashree Srinivasan (jsrinivasan19@ubishops.ca)
