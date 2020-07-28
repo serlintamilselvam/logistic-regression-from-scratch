@@ -126,7 +126,7 @@ The regression plot is drawn on train data with different values of learning rat
 
 ## Contributors:
 
-1. Bhuvaneshwaran Ravi (bravi19@ubishops.ca) 
-2. Jayashree Srinivasan (jsrinivasan19@ubishops.ca)
-3. Kameswaran Rangasamy (krangasamy19@ubishops.ca)
-4. Serlin Tamilselvam (stamilselvam19@ubishops.ca)
+1. <a href="https://github.com/BhuvaneshRavi" target="_blank">Bhuvaneshwaran Ravi</a>
+2. <a href="https://github.com/jsri16" target="_blank">Jayashree Srinivasan</a>
+3. <a href="https://github.com/rangakamesh" target="_blank">Kameswaran Rangasamy</a>
+4. <a href="https://github.com/serlintamilselvam" target="_blank">Serlin Tamilselvam</a>
