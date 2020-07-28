@@ -92,10 +92,10 @@ The gradient ascent algorithm to find optimal weights is performed on SA heart d
 </ul>
 <br>
 
-An accuracy of <strong>63%</strong> is obtained on training data(100).	
+An accuracy of <strong>63%</strong> is obtained on train data(100).	
 
 <br>
-An accuracy of <strong>67.67%</strong> is obtained on testing data(362).
+An accuracy of <strong>67.67%</strong> is obtained on test data(362).
 
 
 ### Graph with different learning rate
