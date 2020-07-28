@@ -17,26 +17,36 @@ In logistic regression, our goal is to learn a set of parameters βT = (β0 , β
 
 In logistic regression, the probability model is based on the binomial distributions:
 
-<div align="center">f(xi, pi) = f(yi, pi) = { pi, if yi = 1 && 1 - pi, if yi = 0}</div>
+<div align="center">
+	<img src="https://latex.codecogs.com/gif.latex?f(x_{i},p_{i})&space;=&space;f(y_{i},p_{i})&space;=&space;\left\{\begin{matrix}&space;p_{i}&space;&&space;if&space;&&space;y_{i}&space;=&space;1&space;\\&space;1-p_{i}&space;&&space;if&space;&&space;y_{i}&space;=&space;0&space;\end{matrix}\right." title="f(x_{i},p_{i}) = f(y_{i},p_{i}) = \left\{\begin{matrix} p_{i} & if & y_{i} = 1 \\ 1-p_{i} & if & y_{i} = 0 \end{matrix}\right."/>
+</div>
 
 where xi = (x1 ,..., xk) is the vector of features and 0 < pi < 1 are the probabilities associated to the binomials in the model. In other words, the probability of the feature vector xi specifying the class yi = 1 occurs with probability pi , that is
 
-<div align="center">p(yi = 1) = pi = (e^(β0+β1*x1i+...+βk*xki)/(1+e^(β0+β1*x1i+...+βk*xki)</div>
+<div align="center">
+	<img src="https://latex.codecogs.com/gif.latex?p(y_{i}&space;=&space;1)&space;=&space;p_{i}&space;=&space;\frac{e^{\beta_{0}&plus;\beta_{1}x_{1}^{(i)}&plus;...&plus;\beta_{k}x_{k}^{(i)}}}{1&plus;e^{\beta_{0}&plus;\beta_{1}x_{1}^{(i)}&plus;...&plus;\beta_{k}x_{k}^{(i)}}}&space;=&space;\frac{e^{x_{i}^{T}\beta}}{1&plus;e^{x_{i}^{T}\beta}}" title="p(y_{i} = 1) = p_{i} = \frac{e^{\beta_{0}+\beta_{1}x_{1}^{(i)}+...+\beta_{k}x_{k}^{(i)}}}{1+e^{\beta_{0}+\beta_{1}x_{1}^{(i)}+...+\beta_{k}x_{k}^{(i)}}} = \frac{e^{x_{i}^{T}\beta}}{1+e^{x_{i}^{T}\beta}}" />
+</div>
 
 Given a dataset with n training examples and k features, then the conditional likelihood L(β) is given by
 
-<div align="center">L(β) = <img src="https://latex.codecogs.com/gif.latex?\coprod_{i=1}^{n}P(xi)^{yi}((1-P(xi))^{1-yi})" title="\coprod_{i=1}^{n}P(xi)^{yi}((1-P(xi))^{1-yi})" /></div>
+<div align="center">
+	<img src="https://latex.codecogs.com/gif.latex?L(\beta)&space;=&space;\coprod_{i=1}^{n}P(xi)^{yi}((1-P(xi))^{1-yi})" title="L(\beta) = \coprod_{i=1}^{n}P(xi)^{yi}((1-P(xi))^{1-yi})" />
+</div>
 
 ### Cost/Objective function
 
 The cost function for logistic regression is the log of conditional likelihood and it is given by
 
-<div align="center">The Log likelihood, l(β) = log(L(β)) = <img src="https://latex.codecogs.com/gif.latex?\sum_{i=1}^{n}[yi(\beta&space;_{0}&plus;\beta&space;_{i}xi)&space;-&space;log(1&plus;e^{\beta&space;_{0}&plus;\beta&space;_{i}xi})]" title="\sum_{i=1}^{n}[yi(\beta _{0}+\beta _{i}xi) - log(1+e^{\beta _{0}+\beta _{i}xi})]" /></div>
+<div align="center">
+	<img src="https://latex.codecogs.com/gif.latex?The&space;Log&space;likelihood,&space;l(\beta&space;)&space;=&space;log(L(\beta&space;))&space;=&space;\sum_{i=1}^{n}[yi(\beta&space;_{0}&plus;\beta&space;_{i}xi)&space;-&space;log(1&plus;e^{\beta&space;_{0}&plus;\beta&space;_{i}xi})]" title="The Log likelihood, l(\beta ) = log(L(\beta )) = \sum_{i=1}^{n}[yi(\beta _{0}+\beta _{i}xi) - log(1+e^{\beta _{0}+\beta _{i}xi})]" />
+</div>
 
 ### Gradient function
 
 The gradient function to find the local maxima is obtained using the following equation
-<div align="center"><img src="https://latex.codecogs.com/gif.latex?\frac{\partial&space;l}{\partial&space;\beta&space;_{j}}&space;=&space;\sum_{i=1}^{n}{x_{j}}^{(i)}(y_{i}-p_{(i)})" title="\frac{\partial l}{\partial \beta _{j}} = \sum_{i=1}^{n}{x_{j}}^{(i)}(y_{i}-p_{(i)})" /></div>
+<div align="center">
+	<img src="https://latex.codecogs.com/gif.latex?\frac{\partial&space;l}{\partial&space;\beta&space;_{j}}&space;=&space;\sum_{i=1}^{n}{x_{j}}^{(i)}(y_{i}-p_{(i)})" title="\frac{\partial l}{\partial \beta _{j}} = \sum_{i=1}^{n}{x_{j}}^{(i)}(y_{i}-p_{(i)})" />
+</div>
 
 
 
@@ -44,27 +54,72 @@ The gradient function to find the local maxima is obtained using the following e
 
 The goal of the project is to implement logistic regression classifier using gradient ascent. Gradient ascent is used to find the best weight and bias. The below algorithm is used to find the optimal weights.
 
-<div>Gradient_Ascent()</div>
-<div>	1. Set α ∈ [0,1]  (Set learning rate)</div>
-<div>	2. Set ε > 0 (Tolerance Term)</div>
-<div>	3. β0 <- initial value</div>
-<div>	4. for t = 0, 1, ... do</div>
-<div>	5. 		Compute the gradient: gt = ∇l(β(t))</div>
-<div>	6.		Update the coefficients: β(t+1) <- β(t) + αgt</div>
-<div>	7.		Iterate until: || β(t+1) − β(t) || < ε</div>
-<div>	8. end for</div>
-<div>	9. Return the final coefficients: β(t final)</div>
+<div><strong>Gradient_Ascent()</strong></div>
+<blockquote>
+	<div>	1. Set α ∈ [0,1]  (Set learning rate)</div>
+	<div>	2. Set ε > 0 (Tolerance Term)</div>
+	<div>	3. β0 <- initial value</div>
+	<div>	4. for t = 0, 1, ... do</div>
+	<blockquote>
+		<div>	5. 		Compute the gradient: gt = ∇l(β(t))</div>
+		<div>	6.		Update the coefficients: β(t+1) <- β(t) + αgt</div>
+		<div>	7.		Iterate until: || β(t+1) − β(t) || < ε</div>
+	</blockquote>
+	<div>	8. end for</div>
+	<div>	9. Return the final coefficients: β(t final)</div>
+</blockquote>
 
-The feature variable x1 is normalized before weights are calculated and the following formulae is used
+The feature variable x1 is normalized before weights are calculated and the following formulae is used to do so
 <div align="center"><img src="https://latex.codecogs.com/gif.latex?x_{i}&space;=&space;\frac{x_{i}&space;-&space;mean}{sd}" title="x_{i} = \frac{x_{i} - mean}{sd}" /></div>
+
 
 ### DataSet
 
+Data available at <a href="https://web.stanford.edu/~hastie/ElemStatLearn/datasets/SAheart.data" target="_blank">https://web.stanford.edu/~hastie/ElemStatLearn/datasets/SAheart.data.</a> This data set is a retrospective sample of males in a heart-disease high-risk region of the Western Cape, South Africa. Many of the coronary heart disease (CHD) positive men have undergone blood pressure reduction treatment and other programs to reduce their risk factors after their CHD event. In some cases the measurements were made after these treatments. The class label indicates if the person has a coronary heart disease (negative or positive) and is hidden for our analysis. Individuals are described by the following nine variables. The continuous variables are systolic blood pressure (sbp), cumulative tobacco (tobacco), low density lipoprotein cholesterol (ldl), adiposity, obesity and current alcohol consumption (alcohol). The integer variables are type-A behavior (typea) and age at onset (age). Finally, the binary variable indicates the presence or not of heart disease in the family history(famhist).
+
+
 ### Accuracy
+
+The gradient ascent algorithm to find optimal weights is performed on SA heart dataset. Out of 9 different features available, low density lipoprotein cholesterol(ldl) is selected as a feature to train the model and Coronary heart disease(chd) is predicted. First 100 data is used to train the model and next 362 data is used for testing the accuracy of the model.
+
+#### PARAMETER VALUES
+<div align="center">
+	<ul>
+		<li>Learning Rate (α)  =  0.001</li>
+		<li>Tolerance Term (ε) =  1e-5</li>
+		<li>Max Iteration      =  10000</li>
+	</ul>
+</div>
+
+
+<div align="center">
+	An accuracy of <strong>63%</strong> is obtained on training data(100).	
+</div>
+
+<div align="center">
+	An accuracy of <strong>67.67%</strong> is obtained on testing data(362).
+	The accuracy on Testing data(362) is <strong>67.67%</strong>	
+</div>
+
 
 ### Graph with different learning rate
 
+The regression plot is drawn on train data with different values of learning rates. The learning rates used are 1, 0.9, 0.1, 1e-5 and 1e-10.
+
+<div align="center">
+	<strong>REGRESSION PLOT</strong>
+</div>
+<img align="center" src="/plots/regression_line_for_different_alphas.png">
+
 ### Confusion Matrix
+
+#### Confusion matrix on train data
+
+<img align="center" src="/plots/confusion_matrix_train_data.png">
+
+#### Confusion matrix on test data
+
+<img align="center" src="/plots/confusion_matrix_test_data.png">
 
 ## Contributors:
 
