@@ -83,23 +83,19 @@ Data available at <a href="https://web.stanford.edu/~hastie/ElemStatLearn/datase
 The gradient ascent algorithm to find optimal weights is performed on SA heart dataset. Out of 9 different features available, low density lipoprotein cholesterol(ldl) is selected as a feature to train the model and Coronary heart disease(chd) is predicted. First 100 data is used to train the model and next 362 data is used for testing the accuracy of the model.
 
 #### PARAMETER VALUES
-<div align="center">
-	<ul>
-		<li>Learning Rate (α)  =  0.001</li>
-		<li>Tolerance Term (ε) =  1e-5</li>
-		<li>Max Iteration      =  10000</li>
-	</ul>
-</div>
 
 
-<div align="center">
-	An accuracy of <strong>63%</strong> is obtained on training data(100).	
-</div>
+<ul>
+	<li>Learning Rate (α)  =  0.001</li>
+	<li>Tolerance Term (ε) =  1e-5</li>
+	<li>Max Iteration      =  10000</li>
+</ul>
+<br>
 
-<div align="center">
-	An accuracy of <strong>67.67%</strong> is obtained on testing data(362).
-	The accuracy on Testing data(362) is <strong>67.67%</strong>	
-</div>
+An accuracy of <strong>63%</strong> is obtained on training data(100).	
+
+<br>
+An accuracy of <strong>67.67%</strong> is obtained on testing data(362).
 
 
 ### Graph with different learning rate
@@ -109,17 +105,24 @@ The regression plot is drawn on train data with different values of learning rat
 <div align="center">
 	<strong>REGRESSION PLOT</strong>
 </div>
-<img align="center" src="/plots/regression_line_for_different_alphas.png">
+
+<div align="center">
+	<img src="/plots/regression_line_for_different_alphas.png">
+</div>
 
 ### Confusion Matrix
 
 #### Confusion matrix on train data
 
-<img align="center" src="/plots/confusion_matrix_train_data.png">
+<div align="center">
+	<img align="center" src="/plots/confusion_matrix_train_data.png">
+</div>
 
 #### Confusion matrix on test data
 
-<img align="center" src="/plots/confusion_matrix_test_data.png">
+<div align="center">
+	<img align="center" src="/plots/confusion_matrix_test_data.png">
+</div>
 
 ## Contributors:
 
