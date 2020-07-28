@@ -44,20 +44,27 @@ The gradient function to find the local maxima is obtained using the following e
 
 The goal of the project is to implement logistic regression classifier using gradient ascent. Gradient ascent is used to find the best weight and bias. The below algorithm is used to find the optimal weights.
 
-Gradient_Ascent()
-	1. Set α ∈ [0,1]  (Set learning rate)
-	2. Set ε > 0 (Tolerance Term)
-	3. β0 <- initial value
-	4. for t = 0, 1, ... do
-	5. 		Compute the gradient: gt = ∇l(β(t))
-	6.		Update the coefficients: β(t+1) <- β(t) + αgt
-	7.		Iterate until: || β(t+1) − β(t) || < ε
-	8. end for
-	9. Return the final coefficients: β(t final)
+<div>Gradient_Ascent()</div>
+<div>	1. Set α ∈ [0,1]  (Set learning rate)</div>
+<div>	2. Set ε > 0 (Tolerance Term)</div>
+<div>	3. β0 <- initial value</div>
+<div>	4. for t = 0, 1, ... do</div>
+<div>	5. 		Compute the gradient: gt = ∇l(β(t))</div>
+<div>	6.		Update the coefficients: β(t+1) <- β(t) + αgt</div>
+<div>	7.		Iterate until: || β(t+1) − β(t) || < ε</div>
+<div>	8. end for</div>
+<div>	9. Return the final coefficients: β(t final)</div>
 
 The feature variable x1 is normalized before weights are calculated and the following formulae is used
 <div align="center"><img src="https://latex.codecogs.com/gif.latex?x_{i}&space;=&space;\frac{x_{i}&space;-&space;mean}{sd}" title="x_{i} = \frac{x_{i} - mean}{sd}" /></div>
 
+### DataSet
+
+### Accuracy
+
+### Graph with different learning rate
+
+### Confusion Matrix
 
 ## Contributors:
 
