@@ -33,7 +33,7 @@ Given a dataset with n training examples and k features, then the conditional li
 	<img src="https://latex.codecogs.com/gif.latex?L(\beta)&space;=&space;\coprod_{i=1}^{n}P(xi)^{yi}((1-P(xi))^{1-yi})" title="L(\beta) = \coprod_{i=1}^{n}P(xi)^{yi}((1-P(xi))^{1-yi})" />
 </div>
 
-### Cost/Objective function
+### Cost/Objective function/Log Likelihood
 
 The cost function for logistic regression is the log of conditional likelihood and it is given by
 
@@ -47,7 +47,6 @@ The gradient function to find the local maxima is obtained using the following e
 <div align="center">
 	<img src="https://latex.codecogs.com/gif.latex?\frac{\partial&space;l}{\partial&space;\beta&space;_{j}}&space;=&space;\sum_{i=1}^{n}{x_{j}}^{(i)}(y_{i}-p_{(i)})" title="\frac{\partial l}{\partial \beta _{j}} = \sum_{i=1}^{n}{x_{j}}^{(i)}(y_{i}-p_{(i)})" />
 </div>
-
 
 
 ## Implementation in R:
@@ -100,7 +99,7 @@ An accuracy of <strong>67.67%</strong> is obtained on test data(362).
 
 ### Graph with different learning rate
 
-The regression plot is drawn on train data with different values of learning rates. The learning rates used are 1, 0.9, 0.1, 1e-5 and 1e-10.
+The regression plot is drawn on train data with different values of learning rates. The learning rates used are 1, 0.9, 0.1, 0.001, 1e-5 and 1e-10.
 
 <div align="center">
 	<strong>REGRESSION PLOT</strong>
@@ -109,6 +108,19 @@ The regression plot is drawn on train data with different values of learning rat
 <div align="center">
 	<img src="/plots/regression_line_for_different_alphas.png">
 </div>
+
+### Gradient Convergence Analysis
+
+By using the log likelihood function the convergence of gradient ascent is tested. The convergence is tested for various values of learning rate(1, 0.9, 0.1, 0.001, 1e-5 and 1e-10) and the maximum number of iteration is set to 100000. The loglikelihood curve for different iteration is plotted below and it is found that for learning rate values of 0.001 and 1e-5 the curve is constant after sometime. The plots are as follows:
+
+<div align="center">
+	<img width="50%" src="/plots/iteration_vs_loglikelihood_for_lr_1.png">
+	<img width="50%" src="/plots/iteration_vs_loglikelihood_for_lr_0.9.png">
+	<img width="50%" src="/plots/iteration_vs_loglikelihood_for_lr_0.1.png">
+	<img width="50%" src="/plots/iteration_vs_loglikelihood_for_lr_0.9.png">
+	<img width="50%" src="/plots/iteration_vs_loglikelihood_for_lr_1e-5.png">
+</div>
+
 
 ### Confusion Matrix
 
