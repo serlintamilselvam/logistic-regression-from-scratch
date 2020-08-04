@@ -16,8 +16,31 @@ sigmoid <- function(w) {
   wPrediction <- 1/(1 + exp(-w))
 }
 
-# DEFINING COST FUNCTION TO CALCULATE WEIGHTTS (LOG LIKELIHOOD) ----
+# PLOT LOGLIKELIHOOD GRAPH
+plotLogLikelihood <- function(trainLogLikelihood, alphaValue) {
+  
+  xPlotData <- seq(1, length(trainLogLikelihood), 1)
+  plot(x=xPlotData, y=trainLogLikelihood,
+       type = "l",
+       col="green",
+       xlab="Iteration",
+       ylab="Log likelihood",
+       main="No. of iteration vs Log likelihood")
+  legend(x = "topright",
+         legend = alphaValue, 
+         cex = .8,
+         title = "Learning Rate",
+         pch = 15, 
+         col = "green")
 
+}
+
+# DEFINING COST FUNCTION TO CALCULATE WEIGHTTS (LOG LIKELIHOOD) ----
+logLikelihood <- function(x, y, beta) {
+  logW <- x %*% t(beta)
+  likelihood <- y*logW - log((1+exp(logW)))
+  return (sum(likelihood))
+}
 
 # GRADIENT FUNCTION ----
 grad <- function(x, y, beta) {
@@ -37,12 +60,13 @@ gradientAscend <- function(x, y, learningRate = bestlearningRate,
   if(is.vector(y)) y <- matrix(y)
   
   noOfFeatures <- ncol(x)
-  
+  localTrainLogLikelihood <- c(0:0)
   # Initialize the beta(Weights)
   newBeta <- matrix(rep(0, noOfFeatures), nrow=1)
   
   for (i in 1:noOfIterations) {
     previousBeta <- newBeta
+    localTrainLogLikelihood[i] <- logLikelihood(x, y, newBeta)
     newBeta <- previousBeta + learningRate * grad(x, y, previousBeta)
     if(all(is.na(newBeta))) {
       return (previousBeta)
@@ -51,9 +75,8 @@ gradientAscend <- function(x, y, learningRate = bestlearningRate,
       break;
     }
   }
-  cat(sprintf("Number of Iteration is %f\n", i))
-  #cat("In Iteration %f BETA DIFFERENCE IS %f\n", i, abs(newBeta - previousBeta))
-  return (newBeta)
+  plotLogLikelihood(localTrainLogLikelihood, learningRate)
+  return (list("newBeta" = newBeta, "logLikelihood" = localTrainLogLikelihood))
 }
 
 # COMPARE PREDICTED VALUE AND ACTUAL VALUE ----
@@ -91,16 +114,16 @@ regressionGraph <- function(x, y, varyAlpha, colorsArray) {
                             matrix(gradientAscend(x = x, 
                                                   y = y, 
                                                   learningRate = alpha, 
-                                                  noOfIterations = maxIteration)))
-  plot(x,jitter(y, 1), 
-       pch = 19, 
-       xlab="Low Density Lipoprotein Cholesterol", 
-       ylab="Coronary Heart Disease(0 - Negative, 1 - Positive)", 
-       main="Regression Line with different learning rates",  
+                                                  noOfIterations = maxIteration)$newBeta))
+  plot(x,jitter(y, 1),
+       pch = 19,
+       xlab="Low Density Lipoprotein Cholesterol",
+       ylab="Coronary Heart Disease(0 - Negative, 1 - Positive)",
+       main="Regression Line with different learning rates",
        ylim=c(-0.25,2))
   abline(h=.5, lty=2)
   xPlotData <- seq(min(x), max(x), 0.01)
-  
+
   for (i in 1:length(multipleBetas)) {
     cat(sprintf("Learning rate = %.10f \n", varyAlpha[i]))
     yPredOnDiffAlphaValue <- predictProb(x, multipleBetas[[i]])
@@ -109,8 +132,8 @@ regressionGraph <- function(x, y, varyAlpha, colorsArray) {
     yPredGraphDataDiffBeta <- predictProb(xPlotData, multipleBetas[[i]])
     lines(xPlotData, yPredGraphDataDiffBeta, col = colorsArray[i], lwd = 2)
   }
-  
-  legend(x = "topright", y = 2.1, 
+
+  legend(x = "topright", y = 2.1,
          legend = varyAlpha, cex = .8,
          title = "Learning Rates",
          pch = 15, col = colorsArray)
@@ -123,21 +146,24 @@ regressionGraph <- function(x, y, varyAlpha, colorsArray) {
 xTrainData <- normalizeInput(saHeartData[1:100, 3]) # Normalize xTrainData
 yTrainData <- saHeartData[1:100,10]
 
+
+# COMPUTE BETA MAX WITH DIFFERENT LEARNING RATE
+multipleAlpha <- c(1, 0.9, 0.1, 0.001, 1e-5, 1e-10)
+randColors <- c("Yellow2", "Blue", "Brown", "Orange", "Green4", "Red")
+regressionGraph(xTrainData, yTrainData, multipleAlpha, randColors)
+
+
 # COMPUTE BETA MAX
-betaMax <- matrix(gradientAscend(x=xTrainData, y=yTrainData, noOfIterations=maxIteration))
+gradientAscendOutput <- gradientAscend(x=xTrainData, y=yTrainData, noOfIterations=maxIteration)
+betaMax <- matrix(gradientAscendOutput$newBeta)
 trainProbs <- predictProb(xTrainData, betaMax)
 
 # PREDICT ON TRAINED DATA
+cat(sprintf("\n\n\tGradient Ascent converged for Learning Rate = %f\n",bestlearningRate))
 trainYPred <- predictionAccuracy(yTrainData,trainProbs,"Train")
 print("CONFUSION MATRIX FOR TRAIN DATA:");
 library(caret)
 confusionMatrix(table(trainYPred,yTrainData))
-
-
-# COMPUTE BETA MAX WITH DIFFERENT LEARNING RATE
-multipleAlpha <- c(1, 0.9, 0.1, 1e-5, 1e-10)
-randColors <- c("Yellow2", "Blue", "Orange", "Green4", "Red")
-regressionGraph(xTrainData, yTrainData, multipleAlpha, randColors)
 
 
 # PREDICT ON TEST DATA
@@ -171,4 +197,3 @@ confusionMatrix(table(testYPred, yTestData))
 #                       predictions_col = "prediction",
 #                       counts_col = "n",
 #                       palette = "Red")
-
