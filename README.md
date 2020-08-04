@@ -117,7 +117,7 @@ By using the log likelihood function the convergence of gradient ascent is teste
 	<img width="50%" src="/plots/iteration_vs_loglikelihood_for_lr_1.png">
 	<img width="50%" src="/plots/iteration_vs_loglikelihood_for_lr_0.9.png">
 	<img width="50%" src="/plots/iterationvsloglikelihood_for_lr_0.1.png">
-	<img width="50%" src="/plots/iteration_vs_loglikelihood_for_lr_0.9.png">
+	<img width="50%" src="/plots/iteration_vs_loglikelihood_for_lr_0.001.png">
 	<img width="50%" src="/plots/iterationvsloglikelihood_for_lr_1e-5.png">
 </div>
 
