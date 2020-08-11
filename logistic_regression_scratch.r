@@ -1,6 +1,6 @@
 # LOAD DATA ----
 saHeartData <- read.table("http://www-stat.stanford.edu/~tibs/ElemStatLearn/datasets/SAheart.data", sep=",",head=T,row.names=1)
-maxIteration <- 10000
+maxIteration <- 50000
 bestlearningRate <- 0.001
 
 # NORMALISE INPUT ----
@@ -161,9 +161,9 @@ trainProbs <- predictProb(xTrainData, betaMax)
 # PREDICT ON TRAINED DATA
 cat(sprintf("\n\n\tGradient Ascent converged for Learning Rate = %f\n",bestlearningRate))
 trainYPred <- predictionAccuracy(yTrainData,trainProbs,"Train")
-print("CONFUSION MATRIX FOR TRAIN DATA:");
-library(caret)
-confusionMatrix(table(trainYPred,yTrainData))
+# print("CONFUSION MATRIX FOR TRAIN DATA:");
+# library(caret)
+# confusionMatrix(table(trainYPred,yTrainData))
 
 
 # PREDICT ON TEST DATA
@@ -174,9 +174,9 @@ testYPred <- predictionAccuracy(yTestData,testProbs,"Test")
 
 
 # CONFUSION MATRIX ON PREDICTED OUTPUT
-print("CONFUSION MATRIX FOR TEST DATA:");
-library(caret)
-confusionMatrix(table(testYPred, yTestData))
+# print("CONFUSION MATRIX FOR TEST DATA:");
+# library(caret)
+# confusionMatrix(table(testYPred, yTestData))
 
 
 # CODE TO PLOT CONFUSION MATRIX ----
