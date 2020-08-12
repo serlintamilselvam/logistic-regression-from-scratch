@@ -171,7 +171,7 @@ xTestData <- normalizeInput(saHeartData[101:dim(saHeartData)[1], 3]) # Normalize
 yTestData <- saHeartData[101:dim(saHeartData)[1], 10]
 testProbs <- predictProb(xTestData,betaMax)
 testYPred <- predictionAccuracy(yTestData,testProbs,"Test")
-
+write(testYPred, ncolumns = 1, append = FALSE, file="testPredicted.txt")
 
 # CONFUSION MATRIX ON PREDICTED OUTPUT
 # print("CONFUSION MATRIX FOR TEST DATA:");
