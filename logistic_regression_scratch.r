@@ -50,7 +50,7 @@ grad <- function(x, y, beta) {
   return(t(gradient))
 }
 
-gradientAscend <- function(x, y, learningRate = bestlearningRate, 
+gradientAscent <- function(x, y, learningRate = bestlearningRate, 
                            noOfIterations = 500, 
                            toleranceTerm=1e-5) {
   
@@ -111,7 +111,7 @@ regressionGraph <- function(x, y, varyAlpha, colorsArray) {
   
   multipleBetas <- lapply(varyAlpha, 
                           function(alpha) 
-                            matrix(gradientAscend(x = x, 
+                            matrix(gradientAscent(x = x, 
                                                   y = y, 
                                                   learningRate = alpha, 
                                                   noOfIterations = maxIteration)$newBeta))
@@ -154,8 +154,8 @@ regressionGraph(xTrainData, yTrainData, multipleAlpha, randColors)
 
 
 # COMPUTE BETA MAX
-gradientAscendOutput <- gradientAscend(x=xTrainData, y=yTrainData, noOfIterations=maxIteration)
-betaMax <- matrix(gradientAscendOutput$newBeta)
+gradientAscentOutput <- gradientAscent(x=xTrainData, y=yTrainData, noOfIterations=maxIteration)
+betaMax <- matrix(gradientAscentOutput$newBeta)
 trainProbs <- predictProb(xTrainData, betaMax)
 
 # PREDICT ON TRAINED DATA
